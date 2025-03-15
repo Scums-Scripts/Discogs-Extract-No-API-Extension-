@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Scum's Square Item Importer</title>
+  <style>
+    body {
+      width: 400px;
+      padding: 15px;
+      font-family: Arial, sans-serif;
+      background-color: #000000; /* Black background */
+      color: #ffffff; /* White text */
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      background-color: #1a1a1a; /* Dark gray container */
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    label {
+      font-weight: bold;
+      color: #ffffff; /* White text */
+    }
+    input, select {
+      padding: 10px;
+      border: 1px solid #444444;
+      border-radius: 4px;
+      font-size: 14px;
+      background-color: #333333; /* Darker input background */
+      color: #ffffff; /* White text */
+    }
+    input:focus, select:focus {
+      border-color: #00cc66; /* Dark green border on focus */
+      outline: none;
+      box-shadow: 0 0 4px rgba(0, 204, 102, 0.8);
+    }
+    button {
+      padding: 12px;
+      background-color: #006633; /* Dark green buttons */
+      color: #ffffff; /* White text */
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #00994d; /* Lighter green on hover */
+    }
+    #result, #status {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #ffffff; /* White text */
+    }
+    #progress {
+      display: none;
+      margin-top: 10px;
+      text-align: center;
+      font-size: 14px;
+      color: #ffffff; /* White text */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Discogs Page Data Extract</h2>
+    <p>Scum-Script./</p>
+    
+    <div class="form-group">
+      <label for="category">Category:</label>
+      <select id="category">
+        <option value="New Records">New Records</option>
+        <option value="Used Records">Used Records</option>
+        <option value="45s">45s</option>
+        <option value="Used CDs">Used CDs</option>
+        <option value="Used Tapes">Used Tapes</option>
+        <option value="DVDs">DVDs</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="price">Set Price:</label>
+      <input type="number" id="price" placeholder="Enter item price" min="0" step="0.01">
+    </div>
+
+    <div class="form-group">
+      <label for="stock">Add Stock:</label>
+      <input type="number" id="stock" placeholder="Enter stock quantity" value="0" min="0">
+    </div>
+
+    <div class="button-group">
+      <button id="extract">Extract</button>
+      <button id="download">Download CSV</button>
+      <button id="copy-extract">Copy Extract</button>
+    </div>
+
+    <div id="progress" class="progress">Processing...</div>
+    <div id="result"></div>
+    <div id="status"></div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
