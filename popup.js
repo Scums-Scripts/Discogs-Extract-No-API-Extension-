@@ -31,8 +31,8 @@ class SquareItemExtractor {
       'Default Unit Cost',
       'Default Vendor Name',
       'Default Vendor Code',
-      'Current Quantity Vinyl Vault Records',
-      'New Quantity Vinyl Vault Records',
+      'Current Quantity',
+      'New Quantity',
       'Stock Alert Enabled',
       'Stock Alert Count',
       'Tax - Sales Tax (5%)'
@@ -96,8 +96,8 @@ class SquareItemExtractor {
       'Default Unit Cost': '',
       'Default Vendor Name': '',
       'Default Vendor Code': '',
-      'Current Quantity Vinyl Vault Records': '', // Clear Current Quantity
-      'New Quantity Vinyl Vault Records': settings.stock || 0, // Place stock in New Quantity
+      'Current Quantity': '', // Clear Current Quantity
+      'New Quantity': settings.stock || 0, // Place stock in New Quantity
       'Stock Alert Enabled': '',
       'Stock Alert Count': '',
       'Tax - Sales Tax (5%)': 'Y'
