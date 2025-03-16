@@ -96,8 +96,8 @@ class SquareItemExtractor {
       'Default Unit Cost': '',
       'Default Vendor Name': '',
       'Default Vendor Code': '',
-      'Current Quantity': '',
-      'New Quantity': settings.stock || 0,
+      'Current Quantity': settings.stock || 0, // Place stock in Current Quantity
+      'New Quantity': '',
       'Stock Alert Enabled': '',
       'Stock Alert Count': '',
       'Tax - Sales Tax (5%)': 'Y'
