@@ -1,21 +1,41 @@
 class SquareItemExtractor {
   constructor() {
     this.headers = [
+      'Token',
       'Item Name',
-      'Category',
+      'Variation Name',
       'SKU',
+      'Description',
+      'Reporting Category',
+      'SEO Title',
+      'SEO Description',
+      'Permalink',
+      'GTIN',
+      'Square Online Item Visibility',
+      'Item Type',
+      'Weight',
+      'Social Media Link Title',
+      'Social Media Link Description',
+      'Shipping Enabled',
+      'Self-serve Ordering Enabled',
+      'Delivery Enabled',
+      'Pickup Enabled',
       'Price',
-      'Price Unit',
-      'Track Stock',
+      'Online Sale Price',
+      'Archived',
+      'Sellable',
+      'Stockable',
+      'Skip Detail Screen in POS',
+      'Option Name 1',
+      'Option Value 1',
+      'Default Unit Cost',
+      'Default Vendor Name',
+      'Default Vendor Code',
+      'Current Quantity',
+      'New Quantity',
       'Stock Alert Enabled',
       'Stock Alert Count',
-      'Quantity',
-      'Stock',
-      'Tax',
-      'Image URL',
-      'Variations',
-      'Show Online',
-      'Item Visibility'
+      'Tax - Sales Tax (5%)'
     ];
   }
 
@@ -23,7 +43,18 @@ class SquareItemExtractor {
     const extractData = () => {
       const rawTitle = document.querySelector('h1')?.textContent || 'Untitled';
       const imageUrl = document.querySelector('img')?.src || '';
-      return { rawTitle, imageUrl };
+      let gtin = '';
+
+      // Search for the section with ID 'release-barcodes' and extract the barcode number
+      const barcodeSection = document.getElementById('release-barcodes');
+      if (barcodeSection) {
+        const barcodeText = barcodeSection.textContent.match(/\b\d{8,13}\b/); // Match 8-13 digit numbers
+        if (barcodeText) {
+          gtin = barcodeText[0].replace(/\s+/g, ''); // Remove any spaces
+        }
+      }
+
+      return { rawTitle, imageUrl, gtin };
     };
 
     const [result] = await chrome.scripting.executeScript({
@@ -35,20 +66,41 @@ class SquareItemExtractor {
     const itemName = `${data.rawTitle.trim()} (${settings.category})`;
 
     return {
+      'Token': '',
       'Item Name': itemName,
-      'Category': settings.category || 'Uncategorized',
+      'Variation Name': 'Standard',
       'SKU': itemName.toLowerCase().replace(/[^a-z0-9]/g, '').substring(0, 8) + '-' + Math.random().toString(36).substring(2, 6).toUpperCase(),
+      'Description': '',
+      'Reporting Category': settings.category || 'Uncategorized',
+      'SEO Title': '',
+      'SEO Description': '',
+      'Permalink': '',
+      'GTIN': data.gtin || '',
+      'Square Online Item Visibility': 'Visible',
+      'Item Type': 'Physical Good',
+      'Weight': '',
+      'Social Media Link Title': '',
+      'Social Media Link Description': '',
+      'Shipping Enabled': 'Y',
+      'Self-serve Ordering Enabled': 'N',
+      'Delivery Enabled': 'N',
+      'Pickup Enabled': 'N',
       'Price': (settings.price || 0).toFixed(2),
-      'Price Unit': 'Per Item',
-      'Track Stock': 'Y',
-      'Stock Alert Enabled': 'N',
+      'Online Sale Price': (settings.price || 0).toFixed(2),
+      'Archived': 'N',
+      'Sellable': '',
+      'Stockable': '',
+      'Skip Detail Screen in POS': 'N',
+      'Option Name 1': '',
+      'Option Value 1': '',
+      'Default Unit Cost': '',
+      'Default Vendor Name': '',
+      'Default Vendor Code': '',
+      'Current Quantity': '',
+      'New Quantity': settings.stock || 0,
+      'Stock Alert Enabled': '',
       'Stock Alert Count': '',
-      'Stock': settings.stock || 0,
-      'Tax': 'Y',
-      'Image URL': data.imageUrl,
-      'Variations': 'Standard',
-      'Show Online': 'Y',
-      'Item Visibility': 'PUBLIC'
+      'Tax - Sales Tax (5%)': 'Y'
     };
   }
 
