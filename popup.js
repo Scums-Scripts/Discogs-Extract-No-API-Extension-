@@ -134,4 +134,28 @@ document.addEventListener('DOMContentLoaded', function() {
 
     extractor.copyDataForGoogleSheets(extractedData);
   });
+
+  document.getElementById('download').addEventListener('click', function() {
+    if (!extractedData) {
+      statusDiv.textContent = 'Please extract data first';
+      return;
+    }
+
+    const filenameInput = document.getElementById('filename');
+    const filename = filenameInput.value.trim() || 'items.csv';
+
+    const csvContent = extractor.headers.join(',') + '\n' +
+      extractor.headers.map(header => extractedData[header] || '').join(',');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+
+    URL.revokeObjectURL(url);
+    statusDiv.textContent = 'CSV file downloaded successfully!';
+  });
 });
